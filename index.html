@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>AI Knowledge Galaxy</title>
+
+<style>
+
+body{
+margin:0;
+background:black;
+color:white;
+font-family:Arial;
+text-align:center;
+overflow:hidden;
+}
+
+/* star background */
+
+body::before{
+content:"";
+position:fixed;
+width:200%;
+height:200%;
+background:url("https://www.transparenttextures.com/patterns/stardust.png");
+animation:stars 60s linear infinite;
+opacity:0.6;
+}
+
+@keyframes stars{
+from{transform:translate(0,0)}
+to{transform:translate(-800px,-800px)}
+}
+
+h1{
+margin-top:30px;
+}
+
+#galaxy{
+position:relative;
+width:900px;
+height:500px;
+margin:40px auto;
+border-radius:12px;
+background: radial-gradient(circle,#203a43,#2c5364);
+box-shadow:0 0 40px cyan;
+}
+
+/* planets */
+
+.node{
+position:absolute;
+padding:8px 14px;
+background:#00c6ff;
+border-radius:20px;
+box-shadow:0 0 10px cyan;
+transition:0.3s;
+}
+
+.node:hover{
+transform:scale(1.2);
+}
+
+.center{
+background:orange;
+box-shadow:0 0 20px orange;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<h1>🌌 AI Knowledge Galaxy</h1>
+<p>Explore knowledge like a solar system</p>
+
+<input id="topic" placeholder="Enter topic">
+<button onclick="explore()">Explore</button>
+
+<div id="galaxy"></div>
+
+<script>
+
+let planets=[]
+
+function explore(){
+
+let topic=document.getElementById("topic").value
+
+let concepts=[]
+
+if(topic.toLowerCase().includes("math")){
+concepts=["Algebra","Geometry","Calculus","Trigonometry","Statistics"]
+}
+
+else if(topic.toLowerCase().includes("machine")){
+concepts=["Data Science","Neural Networks","Deep Learning","AI","Statistics"]
+}
+
+else if(topic.toLowerCase().includes("physics")){
+concepts=["Motion","Energy","Force","Momentum","Gravity"]
+}
+
+else{
+concepts=["Concept1","Concept2","Concept3","Concept4"]
+}
+
+drawGalaxy(topic,concepts)
+
+}
+
+function drawGalaxy(topic,concepts){
+
+let galaxy=document.getElementById("galaxy")
+
+galaxy.innerHTML=""
+
+planets=[]
+
+createNode(topic,450,250,true)
+
+concepts.forEach((c,i)=>{
+
+let angle=(i/concepts.length)*Math.PI*2
+let radius=150
+
+let x=450+radius*Math.cos(angle)
+let y=250+radius*Math.sin(angle)
+
+let node=createNode(c,x,y,false)
+
+planets.push({node:node,angle:angle,radius:radius})
+
+})
+
+}
+
+function createNode(text,x,y,center){
+
+let node=document.createElement("div")
+
+node.className="node"
+
+if(center) node.classList.add("center")
+
+node.innerText=text
+
+node.style.left=x+"px"
+node.style.top=y+"px"
+
+document.getElementById("galaxy").appendChild(node)
+
+return node
+
+}
+
+/* orbit animation */
+
+setInterval(()=>{
+
+planets.forEach(p=>{
+
+p.angle+=0.01
+
+let x=450+p.radius*Math.cos(p.angle)
+let y=250+p.radius*Math.sin(p.angle)
+
+p.node.style.left=x+"px"
+p.node.style.top=y+"px"
+
+})
+
+},30)
+
+</script>
+
+</body>
+</html>
